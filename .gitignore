@@ -47,3 +47,7 @@ _deps
 .cache/
 
 build/*
+
+.history
+
+.vscode
