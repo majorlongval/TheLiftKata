@@ -1,14 +1,29 @@
 #include <iostream>
+#include <ostream>
 #include "gtest.h"
 
 #include "Lift.h"
 
 using namespace std;
 
-int main()
+using namespace LiftKata;
+
+namespace 
 {
-    Lift testLift = Lift();
-    Lift testLift2 = Lift(2);
-    cout<<"Hello world"<<endl;
-    return 0;
+    class LiftKataTester : public ::testing::Test
+    {
+        protected:
+            LiftKataTester(){}
+            virtual ~LiftKataTester(){}
+            virtual void SetUp(){}
+            virtual void TearDown(){}
+            Lift lift = Lift();
+    };
+
+};
+
+int main(int argc, char **argv) 
+{ 
+  ::testing::InitGoogleTest(&argc, argv); 
+  return RUN_ALL_TESTS(); 
 }
