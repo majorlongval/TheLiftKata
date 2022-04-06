@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "LiftAction.h"
+#include "LiftCall.h"
 namespace LiftKata
 {
 
@@ -15,10 +15,14 @@ public:
     void call(int floor, bool direction);
     int floor() const;
     void request(int floor);
+    void appendToCallQueue(int floor, bool direction);
+    void callFromQueue();
+    bool direction();
 
 private:
     int currentFloor;
     bool isWaitingForRequest;
-
+    std::vector<LiftCall> callQueue;
+    bool currentDirection;
 };
 }
