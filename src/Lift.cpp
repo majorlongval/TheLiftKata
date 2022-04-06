@@ -7,49 +7,28 @@
 using namespace LiftKata;
 
 Lift::Lift():
-doorState(false), 
-currentFloor(0),
-currentDirection(noDirection)
-{}
+    currentFloor(0),
+    isWaitingForRequest(false)
+    {}
 
-bool Lift::isOpen() 
+void Lift::call(int floor, bool direction)
 {
-    return this->doorState;    
-}
-
-void Lift::open()
-{
-    this->doorState = true;
-}
-
-void Lift::close() 
-{
-    this->doorState = false;
-}
-
-uint8_t Lift::floor()
-{
-    return this->currentFloor;
-}
-
-Direction Lift::direction()
-{
-    return currentDirection;
-}
-
-void LiftKata::Lift::call(uint8_t sourceFloor, Direction direction) 
-{
-    if (this->currentFloor - sourceFloor < 0)
+    if (! isWaitingForRequest)
     {
-        this->currentDirection = up;
+        currentFloor = floor;
     }
-    else if (this->currentFloor - sourceFloor > 0) 
-    {
-        this->currentDirection = down;
-    }
-    else
-    {
-        this->currentDirection = noDirection;
-    }
-    this->currentFloor = sourceFloor; 
+    isWaitingForRequest = true;
+}
+
+int Lift::floor() const
+{
+    return currentFloor;
+}
+
+void Lift::request(int floor)
+{
+    isWaitingForRequest = false;
+    currentFloor = floor;
+
+    
 }

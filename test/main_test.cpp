@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 #include "gtest.h"
+#include <vector>
 
 #include "Lift.h"
 
@@ -10,67 +11,49 @@ using namespace LiftKata;
 
 namespace 
 {
-    class LiftKataTester : public ::testing::Test
-    {
-        protected:
-            LiftKataTester(){}
-            virtual ~LiftKataTester(){}
-            virtual void SetUp(){}
-            virtual void TearDown(){}
-            Lift lift = Lift();
-    };
-
+class LiftKataTester : public ::testing::Test
+{
+    protected:
+        LiftKataTester(){}
+        virtual ~LiftKataTester(){}
+        Lift lift = Lift();
+        const bool GOING_UP = true;
+        const bool ANY_DIRECTION = true;
 };
 
-TEST_F(LiftKataTester, doorShouldInitiallyBeClosed)
+TEST_F(LiftKataTester, callingLift_ShouldBringItAtMyFloor)
 {
-    ASSERT_FALSE(lift.isOpen());
+     lift.call(5, ANY_DIRECTION);
+     EXPECT_EQ(5, lift.floor());
 }
 
-TEST_F(LiftKataTester, doorCanBeOpened)
+TEST_F(LiftKataTester, requesting_fromACalledLift_ShouldMoveToFloor)
 {
-    lift.open();
-    
-    ASSERT_TRUE(lift.isOpen());
+    lift.call(1, ANY_DIRECTION);
+    lift.request(2);
+    EXPECT_EQ(2, lift.floor());
 }
 
-TEST_F(LiftKataTester, doorCanBeClosed)
+TEST_F(LiftKataTester, calling_aCalledLift_ShouldWaitForARequest)
 {
-    lift.open();
-    
-    lift.close();
+    lift.call(1, ANY_DIRECTION);
 
-    ASSERT_FALSE(lift.isOpen());
+    lift.call(2, ANY_DIRECTION);
+
+    EXPECT_EQ(1, lift.floor());
 }
 
-TEST_F(LiftKataTester, liftShouldInitiallyBeAtFloor0)
+TEST_F(LiftKataTester, calling_AfterARequest_ShouldAllowTheLiftToMoveAgain)
 {
-    ASSERT_EQ(lift.floor(), 0);
+    lift.call(1, ANY_DIRECTION);
+    lift.request(2);
+
+    lift.call(3, ANY_DIRECTION);
+
+    EXPECT_EQ(3, lift.floor());
 }
 
-TEST_F(LiftKataTester, liftShouldInitiallyHaveNoDirection)
-{
-    ASSERT_EQ(lift.direction(), noDirection);
-}
 
-TEST_F(LiftKataTester, callFromUpperFloor_ShouldMakeLiftGoUp_IfAble)
-{
-    lift.call(1, up);
-    EXPECT_EQ(lift.direction(), up);
-    
-}
-
-TEST_F(LiftKataTester, callFromUpperFloor_ShouldChangeCurrentFloor_IfAble)
-{
-    lift.call(1, up);
-    EXPECT_EQ(lift.floor(), 1);
-}
-
-TEST_F(LiftKataTester, callFromLowerFloor_ShouldMakeLiftGoDown_IfAble)
-{
-    lift.call(1, up);
-    lift.call(0, up);
-    EXPECT_EQ(lift.direction(), down);
 }
 
 int main(int argc, char **argv) 

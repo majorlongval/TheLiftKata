@@ -1,26 +1,24 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+#include "LiftAction.h"
 namespace LiftKata
 {
 
-enum Direction {up, down, noDirection};
+
 class Lift
 {
-    public:
-        Lift();
-        bool isOpen();        
-        void open();
-        void close();
-        uint8_t floor();
-        Direction direction();
-        void call(uint8_t sourceFloor, Direction Direction);
-    
-    private:
-        bool doorState;
-        uint8_t currentFloor;
-        Direction currentDirection;
-        
+public:
+    virtual ~Lift() = default;
+    Lift();
+    void call(int floor, bool direction);
+    int floor() const;
+    void request(int floor);
+
+private:
+    int currentFloor;
+    bool isWaitingForRequest;
 
 };
 }
