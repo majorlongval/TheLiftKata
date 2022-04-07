@@ -15,14 +15,16 @@ public:
     void call(int floor, bool direction);
     int floor() const;
     void request(int floor);
-    void appendToCallQueue(int floor, bool direction);
+    void addToCallQueue(int floor, bool direction);
     void callFromQueue();
     bool direction();
-
+    const bool GOING_UP = true;
+    const bool GOING_DOWN = false;
 private:
     int currentFloor;
     bool isWaitingForRequest;
     std::vector<LiftCall> callQueue;
     bool currentDirection;
+    bool isOnPath(int floor);
 };
 }

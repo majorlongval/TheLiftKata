@@ -59,23 +59,35 @@ TEST_F(LiftKataTester, calling_aCalledLift_ShouldEventuallyGoToCall_AfterAReques
     lift.call(1, ANY_DIRECTION);
     lift.call(3, ANY_DIRECTION);
     lift.request(2);
-    lift.call(4, ANY_DIRECTION);
 
     EXPECT_EQ(3, lift.floor());
 }
 
-TEST_F(LiftKataTester, ifCallingFloorIsHigher_LiftDirectionShouldBe_GoingUp)
+TEST_F(LiftKataTester, ifNextCallingFloorIsHigher_LiftDirectionShouldBe_GoingUp)
 {
     lift.call(1, ANY_DIRECTION);
     EXPECT_EQ(GOING_UP, lift.direction());
 }
 
-TEST_F(LiftKataTester, ifCallingFloorIsLower_LiftDirectionShouldBe_GoingDown)
+TEST_F(LiftKataTester, ifNextCallingFloorIsLower_LiftDirectionShouldBe_GoingDown)
 {
     lift.call(1, ANY_DIRECTION);
     lift.request(2);
     lift.call(1, ANY_DIRECTION);
     EXPECT_EQ(GOING_DOWN, lift.direction());
+}
+
+TEST_F(LiftKataTester, lift_ShouldOnlyChangeDirection_WhenTheElevatorIsEmpty)
+{
+    lift.call(1, ANY_DIRECTION);
+    lift.call(3, ANY_DIRECTION);
+    lift.request(2);
+    lift.call(1, ANY_DIRECTION);
+    lift.call(5, ANY_DIRECTION);
+    lift.request(4);
+    EXPECT_EQ(5, lift.floor());
+    lift.request(2);
+    EXPECT_EQ(1, lift.floor());
 }
 }
 

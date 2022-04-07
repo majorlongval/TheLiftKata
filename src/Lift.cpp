@@ -5,6 +5,7 @@
 #include "Lift.h"
 
 using namespace LiftKata;
+using namespace std;
 
 Lift::Lift():
     currentFloor(0),
@@ -30,7 +31,7 @@ void Lift::call(int floor, bool direction)
     }
     else 
     {
-        appendToCallQueue(floor, direction);
+        addToCallQueue(floor, direction);
     }
     isWaitingForRequest = true;
 }
@@ -50,9 +51,17 @@ void Lift::request(int floor)
     }
 }
 
-void Lift::appendToCallQueue(int floor, bool direction)
+void Lift::addToCallQueue(int floor, bool direction)
 {
-    callQueue.push_back({floor, direction});
+    if (isOnPath(floor))
+    {
+        callQueue.insert(callQueue.begin(), {floor, direction});
+    }
+    else
+    {
+        callQueue.push_back({floor, direction});
+    }
+
 }
 
 void Lift::callFromQueue()
@@ -64,4 +73,13 @@ void Lift::callFromQueue()
 bool Lift::direction()
 {
     return currentDirection;
+}
+
+bool Lift::isOnPath(int floor)
+{
+    if ((currentDirection && (floor - currentFloor > 0)) || (!currentDirection && (floor - currentFloor < 0)))
+    {
+        return true;
+    } 
+    return false;
 }
