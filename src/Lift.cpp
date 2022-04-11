@@ -10,7 +10,8 @@ using namespace std;
 Lift::Lift():
     currentFloor(0),
     isWaitingForRequest(false),
-    currentDirection(true)
+    currentDirection(true),
+    visitedFloorList({0})
     {}
 
 void Lift::call(int floor, bool direction)
@@ -28,6 +29,7 @@ void Lift::call(int floor, bool direction)
         }
         
         currentFloor = floor;
+        visitedFloorList.push_back(floor);
     }
     else 
     {
@@ -45,6 +47,7 @@ void Lift::request(int floor)
 {
     isWaitingForRequest = false;
     currentFloor = floor;
+    visitedFloorList.push_back(floor);
     if (! callQueue.empty())
     {
         callFromQueue();
@@ -70,7 +73,7 @@ void Lift::callFromQueue()
     callQueue.erase(callQueue.begin());
 }
 
-bool Lift::direction()
+bool Lift::direction() const
 {
     return currentDirection;
 }
@@ -82,4 +85,9 @@ bool Lift::isOnPath(int floor)
         return true;
     } 
     return false;
+}
+
+vector<int> Lift::visitedFloors() const
+{
+    return visitedFloorList;
 }

@@ -17,7 +17,8 @@ public:
     void request(int floor);
     void addToCallQueue(int floor, bool direction);
     void callFromQueue();
-    bool direction();
+    bool direction() const;
+    std::vector<int> visitedFloors() const;
     const bool GOING_UP = true;
     const bool GOING_DOWN = false;
 private:
@@ -25,6 +26,8 @@ private:
     bool isWaitingForRequest;
     std::vector<LiftCall> callQueue;
     bool currentDirection;
+    std::vector<int> visitedFloorList;
     bool isOnPath(int floor);
+
 };
 }

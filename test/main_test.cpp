@@ -25,14 +25,16 @@ class LiftKataTester : public ::testing::Test
 TEST_F(LiftKataTester, callingLift_ShouldBringItAtMyFloor)
 {
      lift.call(5, ANY_DIRECTION);
-     EXPECT_EQ(5, lift.floor());
+     vector<int> v1 {0, 5};
+     EXPECT_EQ(v1, lift.visitedFloors());
 }
 
 TEST_F(LiftKataTester, requesting_fromACalledLift_ShouldMoveToFloor)
 {
     lift.call(1, ANY_DIRECTION);
     lift.request(2);
-    EXPECT_EQ(2, lift.floor());
+    vector<int> v1 {0, 1, 2};
+    EXPECT_EQ(v1, lift.visitedFloors());
 }
 
 TEST_F(LiftKataTester, calling_aCalledLift_ShouldWaitForARequest)
@@ -40,8 +42,8 @@ TEST_F(LiftKataTester, calling_aCalledLift_ShouldWaitForARequest)
     lift.call(1, ANY_DIRECTION);
 
     lift.call(2, ANY_DIRECTION);
-
-    EXPECT_EQ(1, lift.floor());
+    vector<int> v1 {0, 1};
+    EXPECT_EQ(v1, lift.visitedFloors());
 }
 
 TEST_F(LiftKataTester, calling_AfterARequest_ShouldAllowTheLiftToMoveAgain)
@@ -50,8 +52,8 @@ TEST_F(LiftKataTester, calling_AfterARequest_ShouldAllowTheLiftToMoveAgain)
     lift.request(2);
 
     lift.call(3, ANY_DIRECTION);
-
-    EXPECT_EQ(3, lift.floor());
+    vector<int> v1 {0, 1, 2, 3};
+    EXPECT_EQ(v1, lift.visitedFloors());
 }
 
 TEST_F(LiftKataTester, calling_aCalledLift_ShouldEventuallyGoToCall_AfterARequest)
@@ -59,8 +61,8 @@ TEST_F(LiftKataTester, calling_aCalledLift_ShouldEventuallyGoToCall_AfterAReques
     lift.call(1, ANY_DIRECTION);
     lift.call(3, ANY_DIRECTION);
     lift.request(2);
-
-    EXPECT_EQ(3, lift.floor());
+    vector<int> v1 {0, 1, 2, 3};
+    EXPECT_EQ(v1, lift.visitedFloors());
 }
 
 TEST_F(LiftKataTester, ifNextCallingFloorIsHigher_LiftDirectionShouldBe_GoingUp)
@@ -83,11 +85,28 @@ TEST_F(LiftKataTester, lift_ShouldOnlyChangeDirection_WhenTheElevatorIsEmpty)
     lift.call(3, ANY_DIRECTION);
     lift.request(2);
     lift.call(1, ANY_DIRECTION);
+    vector<int> v1 {0, 1, 2, 3};
+    EXPECT_EQ(v1, lift.visitedFloors());
     lift.call(5, ANY_DIRECTION);
+    EXPECT_EQ(v1, lift.visitedFloors());
     lift.request(4);
-    EXPECT_EQ(5, lift.floor());
+    vector<int> v2 {0, 1, 2, 3, 4, 5};
+    EXPECT_EQ(v2, lift.visitedFloors());
     lift.request(2);
-    EXPECT_EQ(1, lift.floor());
+    vector<int> v3 {0, 1, 2, 3, 4, 5, 2, 1};
+    EXPECT_EQ(v3, lift.visitedFloors());
+}
+
+TEST_F(LiftKataTester, lift_ShouldtakePassingByCalls)
+{
+    lift.call(1, ANY_DIRECTION);
+    lift.call(2, ANY_DIRECTION);
+    lift.request(5);
+    lift.request(3);
+    lift.call(4, ANY_DIRECTION);
+    lift.request(1);
+    vector<int> v1 = {0, 1, 2, 3, 4, 5, 1};
+    EXPECT_EQ(v1, lift.visitedFloors());
 }
 }
 
