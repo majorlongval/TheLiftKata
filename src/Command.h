@@ -12,8 +12,8 @@ class Command
     public:
         virtual bool isSameFloor(const Command& c) = 0;
         virtual bool isSameDirection(const Command& c) = 0;
-    
-    private:
+        virtual int floorValue() = 0;
+    protected:
         int floor;
         bool direction;
 

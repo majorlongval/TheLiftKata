@@ -3,7 +3,7 @@
 #include "gtest.h"
 #include <vector>
 
-
+#include "Command.h"
 #include "Scheduler.h"
 #include "Request.h"
 
@@ -34,7 +34,9 @@ TEST_F(SchedulerTest, next_withEmptyScheduler_ShouldReturnCurrentPosition)
 TEST_F(SchedulerTest, next_WithASingleCommand_ShouldReturnItsFloor)
 {
     Request r(7);
-    //scheduler.schedule()
+    scheduler.passCommand(&r);
+    int nextFloor = scheduler.nextFloor(0, GOING_UP);
+    ASSERT_EQ(7, nextFloor);
 }
 
 }

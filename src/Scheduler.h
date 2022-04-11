@@ -2,6 +2,9 @@
 
 #include <cstdint>
 #include <vector>
+
+#include "Request.h"
+#include "Call.h"
 namespace LiftKata
 {
 
@@ -11,7 +14,10 @@ class Scheduler
         virtual ~Scheduler() = default;
         Scheduler();
         int nextFloor(const int currentFloor, const bool direction);
-};
+        void passCommand(Command* c);
 
+    private:
+        std::vector<Command*> commandQueue;
+};
 
 }
