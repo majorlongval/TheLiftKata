@@ -50,7 +50,7 @@ void Lift::request(int floor)
     visitedFloorList.push_back(floor);
     if (! callQueue.empty())
     {
-        callFromQueue();
+        callFromCallQueue();
     }
 }
 
@@ -67,7 +67,7 @@ void Lift::addToCallQueue(int floor, bool direction)
 
 }
 
-void Lift::callFromQueue()
+void Lift::callFromCallQueue()
 {
     call(callQueue[0].callingFloor, callQueue[0].direction);
     callQueue.erase(callQueue.begin());

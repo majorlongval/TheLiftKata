@@ -52,6 +52,7 @@ TEST_F(LiftKataTester, calling_AfterARequest_ShouldAllowTheLiftToMoveAgain)
     lift.request(2);
 
     lift.call(3, ANY_DIRECTION);
+
     vector<int> v1 {0, 1, 2, 3};
     EXPECT_EQ(v1, lift.visitedFloors());
 }
@@ -97,17 +98,6 @@ TEST_F(LiftKataTester, lift_ShouldOnlyChangeDirection_WhenTheElevatorIsEmpty)
     EXPECT_EQ(v3, lift.visitedFloors());
 }
 
-TEST_F(LiftKataTester, lift_ShouldtakePassingByCalls)
-{
-    lift.call(1, ANY_DIRECTION);
-    lift.call(2, ANY_DIRECTION);
-    lift.request(5);
-    lift.request(3);
-    lift.call(4, ANY_DIRECTION);
-    lift.request(1);
-    vector<int> v1 = {0, 1, 2, 3, 4, 5, 1};
-    EXPECT_EQ(v1, lift.visitedFloors());
-}
 }
 
 int main(int argc, char **argv) 
