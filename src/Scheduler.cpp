@@ -14,8 +14,10 @@ int Scheduler::nextFloor(const int currentFloor, const bool direction)
 {
     if (! commandQueue.empty())
     {
-       Command* tmpCommand = commandQueue[0];
-       return tmpCommand->floorValue();
+        int nextFloorValue = commandQueue[0]->floorValue();
+        commandQueue.erase(commandQueue.begin());
+        reschedule();
+        return nextFloorValue;
     }
     return currentFloor;
 }
@@ -23,4 +25,16 @@ int Scheduler::nextFloor(const int currentFloor, const bool direction)
 void Scheduler::passCommand(Command* c)
 {
     commandQueue.push_back(c);
+}
+
+void Scheduler::reschedule()
+{
+    if (!(commandQueue.size() < 2))
+    {
+        Command* nearestOnPath = commandQueue[0];
+        for (Command* command:commandQueue)
+        {
+            //if command.isOnPathAndNearer(nearestOnPath, Lift)
+        }
+    }
 }

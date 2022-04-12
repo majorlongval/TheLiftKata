@@ -18,6 +18,8 @@ class Scheduler
 
     private:
         std::vector<Command*> commandQueue;
+        void reschedule();
+        bool isWaitingForRequest;
 };
 
 }

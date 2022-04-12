@@ -21,6 +21,7 @@ public:
     void requestFromRequestQueue();
     bool direction() const;
     std::vector<int> visitedFloors() const;
+    
     const bool GOING_UP = true;
     const bool GOING_DOWN = false;
 private:

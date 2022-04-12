@@ -39,4 +39,14 @@ TEST_F(SchedulerTest, next_WithASingleCommand_ShouldReturnItsFloor)
     ASSERT_EQ(7, nextFloor);
 }
 
+TEST_F(SchedulerTest, next_WithTwoCommands_ShouldReturnTheNearestOnDirectionFloor)
+{
+    Request r(7);
+    Call c(3, GOING_UP);
+    scheduler.passCommand(&r);
+    scheduler.passCommand(&c);
+    int nextFloor = scheduler.nextFloor(0, GOING_UP);
+    ASSERT_EQ(3, nextFloor);
+}
+
 }
