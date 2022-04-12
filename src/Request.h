@@ -13,7 +13,7 @@ class Request: public Command
         virtual ~Request() = default;
         virtual bool isSameFloor(const Command& c) ;
         virtual bool isSameDirection(const Command& c);
-        virtual int floorValue();
+        virtual int floorValue() const;
 
 };
 }

@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 3.14.4)
 project(LiftKata_test)
 
 
-add_executable(LiftKata_test LiftTest.cpp SchedulerTest.cpp RequestTest.cpp)
+add_executable(LiftKata_test 
+               LiftTest.cpp 
+               SchedulerTest.cpp 
+               RequestTest.cpp 
+               CallTest.cpp)
 
 
 
